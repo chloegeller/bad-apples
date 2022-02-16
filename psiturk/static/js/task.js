@@ -236,7 +236,9 @@ var SliderTrial = function() {
 	var out_act = {
 		type: jsPsychHtmlSliderResponse,
 		stimulus: `<div style="width:500px;">
-		<p>How would you like to split the next 12 hours between the two activities below?</p>
+		<div style="text-align: center;">There's a new <strong>outdoor activity</strong> called "<i><b>Bliggintom</b></i>", and it is considered to be a -5/10.</div>
+		<p> Think of an <b>outdoor activity</b> that you consider to be a 9/10.</p><br>
+		<p>How would you like to split the next <b>12 hours</b> between the two activities?</p>
 		<div style="width:240px; float: left; color:cornflowerblue;">
 			<p>ACTIVITY A</p>
 			<p>Bliggintom</p>
@@ -573,6 +575,7 @@ $(window).on('load', () => {
 	  };
 
 	var timeline = [prolific_id, instruct];
-	timeline = timeline.concat(jsPsych.randomization.shuffle(trial));
+	// timeline = timeline.concat(jsPsych.randomization.shuffle(trial));
+	timeline = timeline.concat(trial);
 	jsPsych.run(timeline);
 });
