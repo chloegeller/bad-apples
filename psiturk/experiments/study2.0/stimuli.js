@@ -18,7 +18,7 @@ const Phase1 = ({ subcategory }) => {
     wrapper.appendChild(imagine)
 
     const hold_on = document.createElement("p");
-    hold_on.innerHTML = "Once you have thought of one, please press <strong>next</strong>."
+    hold_on.innerHTML = "Once you have thought of one, please enter it below, then press <strong>next</strong>."
     wrapper.appendChild(hold_on)
     return wrapper.innerHTML;
 }
@@ -45,26 +45,43 @@ const Phase3 = ({ subcategory, duration = "12 hours"}) => {
     return wrapper.innerHTML;
 }
 
-const Stimulus = (stimulus) => {
+const Stimulus = (stimulus, jsPsych) => {
+    const choice = {
+        type: jsPsychSurveyText,
+		questions: [
+		  {prompt: Phase1(stimulus), required: true, name: "choice"},
+		],
+        on_finish: (data) => {
+            data.participant_choice = data.response.choice
+        },
+    }
     const trial_instructions = {
         type: jsPsychInstructions,
-        pages: [Phase1(stimulus), Phase2(stimulus)],
+        pages: [Phase2(stimulus)],
         show_clickable_nav: true,
         allow_backward: false,
     }
 
+    // TODO in Phase1 allow user response
+    // TODO in Phase3 grab user response from Phase1
+    // console.log(jsPsych.data.getLastTrialData())
+    // const answer = jsPsych.data.get().last(2).values()[0].participant_choice
     const trial_slider = {
         type: jsPsychHtmlSliderResponse,
         stimulus: Phase3(stimulus),
         slider_number: true,
         total_time: 43200,
         step: 0.1,
-        selected_item: `Your selected ${stimulus.subcategory}`,
+        selected_item: () => {
+            const choice = jsPsych.data.get().last(2).values()[0].participant_choice
+            // return `Your select ${stimulus.subcategory}` // NOTE old string
+            return `${choice}` // NOTE new string
+        },
         item: stimulus.probe,
         slider_start: 50,
         require_movement: true,
         labels: [""],
-        subcategory: stimulus.subcategory,
+        subcategory: stimulus.sub_cat,
     }
-    return [trial_instructions, trial_slider];
+    return [choice, trial_instructions, trial_slider];
 }
