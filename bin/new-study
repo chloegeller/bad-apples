@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+study=${1}
+
+cd psiturk/
+
+ln -sf experiments/${study}/config.txt config.txt
+ln -sf experiments/${study}/stimuli.js static/js/stimuli.js
