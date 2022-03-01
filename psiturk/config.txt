@@ -116,7 +116,7 @@ ad_url_domain = bad-apples-study.herokuapp.com
 ;logfile = server.log
 
 # Log level for the psiturk gunicorn server
-;loglevel = 2
+;loglevel = 0
 
 # Controls whether the dashboard is enabled
 ;enable_dashboard = false
