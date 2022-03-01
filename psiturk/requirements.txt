@@ -1,2 +1,2 @@
-psiturk=3.3.0
+psiturk==3.3.0
 psycopg2-binary
