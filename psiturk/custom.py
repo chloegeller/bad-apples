@@ -40,7 +40,7 @@ def get_experiment_code(filename: str) -> str:
     Every "codeversion" should have a unique name to keep track of different study 
         designs.
     """
-    path = Path("/experiments") / filename
+    path = Path("./experiments") / filename
     return send_from_directory(custom_code.root_path + str(path.parent), path.name)
 
 # ----------------------------------------------
