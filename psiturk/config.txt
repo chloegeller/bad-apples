@@ -62,7 +62,7 @@
 # Server domain name for publicly-accessible route to psiturk server.
 # If running on heroku, set this to your heroku app url --
 # e.g., "ad_url_domain = example-app.herokuapp.com"
-;ad_url_domain =
+ad_url_domain = bad-apples-study.herokuapp.com
 
 # Server port for publicly-accessible route to psiturk server
 ;ad_url_port = 443
