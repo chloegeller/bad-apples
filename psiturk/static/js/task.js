@@ -66,10 +66,10 @@ const runExperiment = (data) => {
 	jsPsych.run(timeline)
 }
 
-$(window).on("load", () => {
-	$.getJSON(
-		"/stimuli",
-		{ uniqueId, counterbalance, condition, codeversion, },
-		runExperiment
-	)
-})
+// $(window).on("load", () => {
+// 	$.getJSON(
+// 		"/stimuli",
+// 		{ uniqueId, counterbalance, condition, codeversion, },
+// 		runExperiment
+// 	)
+// })
