@@ -1,6 +1,10 @@
 # this file imports custom routes into the experiment server
 from __future__ import generator_stop
-from flask import Blueprint, render_template, request, jsonify, Response, abort, current_app
+from pathlib import Path
+
+from omegaconf import OmegaConf
+import requests
+from flask import Blueprint, render_template, request, jsonify, Response, abort, current_app, send_from_directory
 from jinja2 import TemplateNotFound
 from functools import wraps
 from sqlalchemy import or_
@@ -30,17 +34,32 @@ custom_code = Blueprint('custom_code', __name__,
 #  add them here
 ###########################################################
 
+@custom_code.route("/experiments/<path:filename>")
+def get_experiment_code(filename: str) -> str:
+    """This searches the local filesystem for `/experiments/<codeversion>`.
+    Every "codeversion" should have a unique name to keep track of different study 
+        designs.
+    """
+    path = Path("/experiments") / filename
+    return send_from_directory(custom_code.root_path + str(path.parent), path.name)
+
 # ----------------------------------------------
 # example custom route
 # ----------------------------------------------
-@custom_code.route('/my_custom_view')
-def my_custom_view():
-    # Print message to server.log for debugging
-    current_app.logger.info("Reached /my_custom_view")
-    try:
-        return render_template('custom.html')
-    except TemplateNotFound:
-        abort(404)
+@custom_code.route('/stimuli', methods=["GET"])
+def get_stimuli():
+    """Fetches the stimulus configuration file and pipes it through `OmegaConf`.
+    """
+    codeversion = request.args.get("codeversion")
+
+    config = Path("experiments") / codeversion / "config.yaml"
+    config = OmegaConf.load(config)
+    # Converts references, like "The ${probe} gets %-age of my time" into the actual
+    #   value of "${probe}"
+    OmegaConf.resolve(config)
+
+    stimuli = OmegaConf.to_container(config.stimuli, resolve=True)
+    return jsonify(stimuli)
 
 # ----------------------------------------------
 # example using HTTP authentication

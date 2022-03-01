@@ -75,3 +75,47 @@ h1 {
   padding-right: 10px;
   padding-top: 15px;
 }
+
+#slider-value-a {
+  color: cornflowerblue;
+  text-align: left;
+}
+
+#slider-value-b {
+  color: darkgreen;
+  text-align: right;
+}
+
+#slider-response {
+  position: relative;
+  margin: 0 auto 3em auto;
+}
+
+#label-container {
+
+}
+
+#label-container > div {
+  text-align: center;
+}
+#label-container > div:first-child {
+  text-align: left;
+}
+#label-container > div:last-child {
+  text-align: right;
+}
+
+.slider-response-ratio {
+  display: flex;
+  flex-direction: row;
+}
+
+#slider-response-ratioA {
+  height: 1rem;
+  background: cornflowerblue;
+}
+#slider-response-ratioB {
+  height: 1rem;
+  flex: 1;
+  background: darkgreen;
+}

@@ -129,88 +129,22 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
       }
       trial(display_element, trial) {
           // half of the thumb width value from jspsych.css, used to adjust the label positions
-          var half_thumb_width = 7.5
-          const sliderWrapper = document.createElement("div")
-          sliderWrapper.id = "jspsych-html-slider-response-wrapper"
-          sliderWrapper.classList.add("my-4")
+          var half_thumb_width = 7.5;
           var html = '<div id="jspsych-html-slider-response-wrapper" style="margin: 100px 0px;">';
-
           html += '<div id="jspsych-html-slider-response-stimulus">' + trial.stimulus + "</div>";
-          const sliderStimulus = document.createElement("div")
-          sliderWrapper.appendChild(sliderStimulus)
-          sliderStimulus.id = "jspsych-html-slider-response-stimulus"
-          sliderStimulus.innerHTML = trial.stimulus
-
-          if (trial.slider_number) {
-            const valueContainer = document.createElement("div")
-            valueContainer.classList.add("d-flex", "flex-row")
-
-            const valueA = document.createElement("div")
-            valueA.classList.add("flex-fill")
-            valueA.id = "slider-value-a"
-            const valueAText = document.createElement("p")
-            valueAText.classList.add("fw-bold")
-            valueAText.id = "slider-value-a-text"
-            valueAText.innerText = trial.item
-            valueA.appendChild(valueAText)
-            const valueATime = document.createElement("p")
-            valueATime.id = "slider-value-a-time"
-            valueA.appendChild(valueATime)
-            valueContainer.appendChild(valueA)
-
-            const valueB = document.createElement("div")
-            valueB.classList.add("flex-fill")
-            valueB.id = "slider-value-b"
-            const valueBText = document.createElement("p")
-            valueBText.classList.add("fw-bold")
-            valueBText.id = "slider-value-b-text"
-            valueBText.innerText = trial.selected_item
-            valueB.appendChild(valueBText)
-            const valueBTime = document.createElement("p")
-            valueBTime.id = "slider-value-b-time"
-            valueB.appendChild(valueBTime)
-            valueContainer.appendChild(valueB)
-
-            sliderWrapper.appendChild(valueContainer)
-            // html += valueContainer.outerHTML
+          if(trial.slider_number){
+            html += '<div class="font-weight-bold ml-2 valueSpanA" style="width: 100%;text-align: left;position: relative;top: 30px;right: 75px;z-index: -1;color: cornflowerblue;"></div>';
+            html += '<div class="font-weight-bold ml-2 valueSpanB" style="vertical-align: top; width: 100%; text-align: right; position: relative; bottom: 30px;left: 75px; z-index: -1; color: darkgreen;"></div>';
           }
-
-          html += '<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
-          const sliderResponse = document.createElement("div")
-          sliderResponse.classList.add(
-            "jspsych-html-slider-response-container", "mx-auto", "mb-3"
-          )
+          html +=
+              '<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
           if (trial.slider_width !== null) {
-            html += "width:" + trial.slider_width + "px;";
-            sliderResponse.style.width = `${trial.slider_width}px`
-          } else {
-            html += "width:auto;";
-            sliderResponse.style.width = `auto`
+              html += "width:" + trial.slider_width + "px;";
           }
-          const sliderRatio = document.createElement("div");
-          sliderRatio.classList.add("slider-response-ratio")
-
-          const sliderRatioA = document.createElement("div");
-          sliderRatioA.id = "slider-response-ratioA"
-          sliderRatio.appendChild(sliderRatioA)
-
-          const sliderRatioB = document.createElement("div");
-          sliderRatioB.id = "slider-response-ratioB"
-          sliderRatio.appendChild(sliderRatioB)
-
-          sliderResponse.appendChild(sliderRatio);
-
+          else {
+              html += "width:auto;";
+          }
           html += '">';
-          const slider = document.createElement("input")
-          slider.type = "range"
-          slider.classList.add("jspsych-slider")
-          slider.id = "jspsych-html-slider-response-response"
-          slider.value = trial.slider_start
-          slider.min = trial.min
-          slider.max = trial.max
-          slider.step = trial.step
-          sliderResponse.appendChild(slider)
-          sliderWrapper.appendChild(sliderResponse)
           html +=
               '<input type="range" class="jspsych-slider" value="' +
                   trial.slider_start +
@@ -222,21 +156,6 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
                   trial.step +
                   '" id="jspsych-html-slider-response-response"></input>';
           html += "<div>";
-
-          const labelWrapper = document.createElement("div")
-          labelWrapper.classList.add("container")
-          labelWrapper.id = "label-wrapper"
-          const labelContainer = document.createElement("div")
-          labelContainer.id = "label-container"
-          labelContainer.classList.add("row")
-          for (const labelValue of trial.labels) {
-            const label = document.createElement("div")
-            label.classList.add("col", "fs-6")
-            label.innerHTML = labelValue
-            labelContainer.appendChild(label)
-          }
-          labelWrapper.appendChild(labelContainer)
-          sliderWrapper.appendChild(labelWrapper)
           for (var j = 0; j < trial.labels.length; j++) {
               var label_width_perc = 100 / (trial.labels.length - 1);
               var percent_of_range = j * (100 / (trial.labels.length - 1));
@@ -267,12 +186,6 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
           if (trial.prompt !== null) {
               html += trial.prompt;
           }
-          const submitButton = document.createElement("button")
-          submitButton.classList.add("jspsych-btn")
-          submitButton.disabled = trial.require_movement
-          submitButton.innerText = trial.button_label
-          submitButton.id = "jspsych-html-slider-response-next"
-          sliderWrapper.append(submitButton)
           // add submit button
           html +=
               '<button id="jspsych-html-slider-response-next" class="jspsych-btn" ' +
@@ -280,48 +193,39 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
                   ">" +
                   trial.button_label +
                   "</button>";
-          display_element.innerHTML = sliderWrapper.outerHTML;
+          display_element.innerHTML = html;
 
-          function secondsToHMS(d) {
+          function secondsToHms(d) {
             d = Number(d);
-            const h = Math.floor(d / 3600);
-            const m = Math.floor(d % 3600 / 60);
-            const s = Math.floor(d % 3600 % 60);
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
         
-            const hText = h ? `<span> ${pluralize("hour", h, true)}` : ""
-            const mText = m ? `<span> ${pluralize("minute", m, true)}` : ""
-            const sText = s ? `<span> ${pluralize("second", s, true)}` : ""
-            return hText + mText + sText; 
+            var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+            var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+            return hDisplay + mDisplay + sDisplay; 
           }
 
         //   check here for percentage of hours
         // move this so that it's above slider
-          function updateRatioAndTime() {
-            const $valueATime = $("#slider-value-a-time");
-            const $valueBTime = $("#slider-value-b-time");
-            const $value = $('#jspsych-html-slider-response-response');
-            const $sliderA = $("#slider-response-ratioA")
-            const percWidth = $value.val() / 100
-
-            $sliderA.width($value.width() * percWidth);
-
-            const itemA = trial.total_time * percWidth 
-            // $valueSpanA.html("Item A");
-            $valueATime.html(secondsToHMS(itemA));
-            // $valueSpanB.html("Item B");
-            $valueBTime.html(secondsToHMS(trial.total_time - itemA));
-          }
-
           $(document).ready(function() {
+
+            const $valueSpanA = $('.valueSpanA');
+            const $valueSpanB = $('.valueSpanB');
             const $value = $('#jspsych-html-slider-response-response');
-            updateRatioAndTime()
+
+            // figure out how to get these to align
+            $valueSpanA.html("<p>" + trial.item + "</p>");
+            $valueSpanB.html("<p>" + trial.selected_item + "</p>");
 
             $value.on('input change', () => {
-                updateRatioAndTime()
+                const itemA = trial.total_time * ($value.val() / 100)
+                // $valueSpanA.html("Item A");
+                $valueSpanA.html("<p>" + trial.item + "</p>" + secondsToHms(itemA));
+                // $valueSpanB.html("Item B");
+                $valueSpanB.html("<p>" + trial.selected_item + "</p>" + secondsToHms(trial.total_time - itemA));
             });
-            $(window).on("resize", () => {
-                updateRatioAndTime()
-            })
           });
 
           var response = {
