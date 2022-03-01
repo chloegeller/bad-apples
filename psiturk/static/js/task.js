@@ -50,7 +50,7 @@ const runExperiment = (data) => {
 	};
 	post_timeline.push(attn_check, comments)
 	timeline.push(fullscreen_trial, prolific_id, instruct)
-	timeline = timeline.concat(experimentTimeline).concat(post_timeline)
+	timeline = timeline.concat(experimentTimeline)
 	// console.log(timeline)
 
 	const jsPsych = initJsPsych({
