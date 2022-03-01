@@ -41,8 +41,9 @@ def get_experiment_code(filename: str) -> str:
         designs.
     """
     path = Path("experiments") / filename
-    print(custom_code.root_path, path, path.exists())
     app_path = Path(custom_code.root_path)
+    # https://stackoverflow.com/a/16994175
+    current_app.logger.debug(f"{app_path}, {path}, {path.exists()}, {app_path / path}")
     return send_from_directory(str(app_path / path.parent), path.name)
 
 # ----------------------------------------------
