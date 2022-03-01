@@ -1,12 +1,22 @@
 const psiTurk = PsiTurk(uniqueId, adServerLoc)
 
-const buildExperimentTimeline = (data) => {
+const buildExperimentTimeline = (data, jsPsych) => {
 	data = _.shuffle(data)
-	let timeline = _.map(data, Stimulus)
+	let timeline = _.map(data, (d) => Stimulus(d, jsPsych))
 	return _.flatten(timeline)
 }
 
 const runExperiment = (data) => {
+	const jsPsych = initJsPsych({
+		show_progress_bar: true,
+		message_progress_bar: "Progress Bar",
+		on_finish: () => psiTurk.saveData({
+			success: () => psiTurk.completeHIT(),
+			error: () => console.log("Error saving data..."),
+		}),
+		on_data_update: (data) => psiTurk.recordTrialData(data),
+	})
+
 	let timeline = []
 	let post_timeline = []
 	var fullscreen_trial = {
@@ -17,7 +27,7 @@ const runExperiment = (data) => {
 		type: jsPsychFullscreen,
 		fullscreen_mode: true
 	};
-	const experimentTimeline = buildExperimentTimeline(data)
+	const experimentTimeline = buildExperimentTimeline(data, jsPsych)
 	var prolific_id = {
 		type: jsPsychSurveyText,
 		questions: [
@@ -50,19 +60,9 @@ const runExperiment = (data) => {
 	};
 	post_timeline.push(attn_check, comments)
 	timeline.push(fullscreen_trial, prolific_id, instruct)
-	timeline = timeline.concat(experimentTimeline)
+	timeline = timeline.concat(experimentTimeline).concat(post_timeline)
 	// console.log(timeline)
 
-	const jsPsych = initJsPsych({
-		show_progress_bar: true,
-		message_progress_bar: "Progress Bar",
-		timeline: timeline,
-		on_finish: () => psiTurk.saveData({
-			success: () => psiTurk.completeHIT(),
-			error: () => console.log("Error saving data..."),
-		}),
-		on_data_update: (data) => psiTurk.recordTrialData(data),
-	})
 	jsPsych.run(timeline)
 }
 
