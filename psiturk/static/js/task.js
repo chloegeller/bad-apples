@@ -48,7 +48,7 @@ const runExperiment = (data) => {
 		  {prompt: '<div style="text-align: center;"><span style="color:#666666;">Comments(?)</span></div>', required: false, name: 'comments'},
 		],
 	};
-	post_timeline.push(attn_check, comments, exit_fullscreen)
+	post_timeline.push(attn_check, comments)
 	timeline.push(fullscreen_trial, prolific_id, instruct)
 	timeline = timeline.concat(experimentTimeline).concat(post_timeline)
 	// console.log(timeline)
