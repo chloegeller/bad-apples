@@ -34,7 +34,7 @@ custom_code = Blueprint('custom_code', __name__,
 #  add them here
 ###########################################################
 
-@custom_code.route("/experiments/<path:filename>")
+@custom_code.route("/experiments/<path:filename>", methods=["GET"])
 def get_experiment_code(filename: str) -> str:
     """This searches the local filesystem for `/experiments/<codeversion>`.
     Every "codeversion" should have a unique name to keep track of different study 
@@ -43,7 +43,7 @@ def get_experiment_code(filename: str) -> str:
     path = Path("experiments") / filename
     app_path = Path(custom_code.root_path)
     # https://stackoverflow.com/a/16994175
-    current_app.logger.debug(f"{app_path}, {path}, {path.exists()}, {app_path / path}")
+    current_app.logger.info(f"{app_path}, {path}, {path.exists()}, {app_path / path}")
     return send_from_directory(str(app_path / path.parent), path.name)
 
 # ----------------------------------------------
