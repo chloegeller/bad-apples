@@ -133,9 +133,7 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
           const sliderWrapper = document.createElement("div")
           sliderWrapper.id = "jspsych-html-slider-response-wrapper"
           sliderWrapper.classList.add("my-4")
-          var html = '<div id="jspsych-html-slider-response-wrapper" style="margin: 100px 0px;">';
 
-          html += '<div id="jspsych-html-slider-response-stimulus">' + trial.stimulus + "</div>";
           const sliderStimulus = document.createElement("div")
           sliderWrapper.appendChild(sliderStimulus)
           sliderStimulus.id = "jspsych-html-slider-response-stimulus"
@@ -151,7 +149,9 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
             const valueAText = document.createElement("p")
             valueAText.classList.add("fw-bold")
             valueAText.id = "slider-value-a-text"
-            valueAText.innerText = trial.item
+            /* uncomment below to flip positions and colors of itemA and itemB */
+            // valueAText.innerText = trial.item
+            valueAText.innerText = trial.selected_item
             valueA.appendChild(valueAText)
             const valueATime = document.createElement("p")
             valueATime.id = "slider-value-a-time"
@@ -164,7 +164,9 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
             const valueBText = document.createElement("p")
             valueBText.classList.add("fw-bold")
             valueBText.id = "slider-value-b-text"
-            valueBText.innerText = trial.selected_item
+            valueBText.innerText =  trial.item
+            /* uncomment below to flip positions and colors of itemA and itemB */
+            // valueBText.innerText = trial.selected_item
             valueB.appendChild(valueBText)
             const valueBTime = document.createElement("p")
             valueBTime.id = "slider-value-b-time"
@@ -172,19 +174,15 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
             valueContainer.appendChild(valueB)
 
             sliderWrapper.appendChild(valueContainer)
-            // html += valueContainer.outerHTML
           }
 
-          html += '<div class="jspsych-html-slider-response-container" style="position:relative; margin: 0 auto 3em auto; ';
           const sliderResponse = document.createElement("div")
           sliderResponse.classList.add(
             "jspsych-html-slider-response-container", "mx-auto", "mb-3"
           )
           if (trial.slider_width !== null) {
-            html += "width:" + trial.slider_width + "px;";
             sliderResponse.style.width = `${trial.slider_width}px`
           } else {
-            html += "width:auto;";
             sliderResponse.style.width = `auto`
           }
           const sliderRatio = document.createElement("div");
@@ -200,7 +198,6 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
 
           sliderResponse.appendChild(sliderRatio);
 
-          html += '">';
           const slider = document.createElement("input")
           slider.type = "range"
           slider.classList.add("jspsych-slider")
@@ -211,17 +208,6 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
           slider.step = trial.step
           sliderResponse.appendChild(slider)
           sliderWrapper.appendChild(sliderResponse)
-          html +=
-              '<input type="range" class="jspsych-slider" value="' +
-                  trial.slider_start +
-                  '" min="' +
-                  trial.min +
-                  '" max="' +
-                  trial.max +
-                  '" step="' +
-                  trial.step +
-                  '" id="jspsych-html-slider-response-response"></input>';
-          html += "<div>";
 
           const labelWrapper = document.createElement("div")
           labelWrapper.classList.add("container")
@@ -242,31 +228,8 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
               var percent_of_range = j * (100 / (trial.labels.length - 1));
               var percent_dist_from_center = ((percent_of_range - 50) / 50) * 100;
               var offset = (percent_dist_from_center * half_thumb_width) / 100;
-              html +=
-                  '<div style="border: 1px solid transparent; display: inline-block; position: absolute; ' +
-                      "left:calc(" +
-                      percent_of_range +
-                      "% - (" +
-                      label_width_perc +
-                      "% / 2) - " +
-                      offset +
-                      "px); text-align: center; width: " +
-                      label_width_perc +
-                      '%;">';
-              html += '<span style="text-align: center; font-size: 80%;">' + trial.labels[j] + "</span>";
-              html += "</div>";
           }
-          html += "</div>";
-          html += "</div>";
-          html += "</div>";
-        //   if(trial.slider_number){
-        //     html += '<div class="font-weight-bold ml-2 valueSpanA" style="width: 100%;text-align: left;position: relative;top: 30px;right: 75px;z-index: -1;color: cornflowerblue;"></div>';
-        //     html += '<div class="font-weight-bold ml-2 valueSpanB" style="vertical-align: top; width: 100%; text-align: right; position: relative; bottom: 30px;left: 75px; z-index: -1; color: darkgreen;"></div>';
-        //   }
-          
-          if (trial.prompt !== null) {
-              html += trial.prompt;
-          }
+
           const submitButton = document.createElement("button")
           submitButton.classList.add("jspsych-btn")
           submitButton.disabled = trial.require_movement
@@ -274,12 +237,6 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
           submitButton.id = "jspsych-html-slider-response-next"
           sliderWrapper.append(submitButton)
           // add submit button
-          html +=
-              '<button id="jspsych-html-slider-response-next" class="jspsych-btn" ' +
-                  (trial.require_movement ? "disabled" : "") +
-                  ">" +
-                  trial.button_label +
-                  "</button>";
           display_element.innerHTML = sliderWrapper.outerHTML;
 
           function secondsToHMS(d) {
@@ -287,13 +244,16 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
             const h = Math.floor(d / 3600);
             const m = Math.floor(d % 3600 / 60);
             const s = Math.floor(d % 3600 % 60);
+
+            const results = { h, m, s, raw: d }
         
             const hText = h ? `<span> ${pluralize("hour", h, true)}` : ""
             const mText = m ? `<span> ${pluralize("minute", m, true)}` : ""
             const sText = s ? `<span> ${pluralize("second", s, true)}` : ""
-            return hText + mText + sText; 
+            return {results, html: hText + mText + sText };
           }
 
+          let results = {}
         //   check here for percentage of hours
         // move this so that it's above slider
           function updateRatioAndTime() {
@@ -305,26 +265,39 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
 
             $sliderA.width($value.width() * percWidth);
 
-            const itemA = trial.total_time * percWidth 
-            // $valueSpanA.html("Item A");
-            $valueATime.html(secondsToHMS(itemA));
-            // $valueSpanB.html("Item B");
-            $valueBTime.html(secondsToHMS(trial.total_time - itemA));
+            const itemB = trial.total_time * percWidth 
+
+            const { results: resultA, html: htmlA } = secondsToHMS(trial.total_time - itemB)
+            const { results: resultB, html: htmlB } = secondsToHMS(itemB)
+            
+            $valueBTime.html(htmlB);
+            $valueATime.html(htmlA);
+
+            // uncomment below to swap sides for itemA and itemB
+            // const itemA = trial.total_time * percWidth 
+
+            // const { results: resultA, html: htmlA } = secondsToHMS(itemA)
+            // const { results: resultB, html: htmlB } = secondsToHMS(trial.total_time - itemA)
+            
+            // $valueATime.html(htmlA);
+            // $valueBTime.html(htmlB);
+
+            return { resultA, resultB }
           }
 
           $(document).ready(function() {
             const $value = $('#jspsych-html-slider-response-response');
-            updateRatioAndTime()
+            results = updateRatioAndTime()
 
             $value.on('input change', () => {
-                updateRatioAndTime()
+                results = updateRatioAndTime()
             });
             $(window).on("resize", () => {
-                updateRatioAndTime()
+                results = updateRatioAndTime()
             })
           });
 
-          var response = {
+          const response = {
               rt: null,
               response: null,
           };
@@ -345,13 +318,18 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
           const end_trial = () => {
               this.jsPsych.pluginAPI.clearAllTimeouts();
               // save data
+              // console.log(results)
+              results.resultA.item = trial.item
+              results.resultB.item = trial.selected_item
+
               var trialdata = {
-                  subcategory: trial.subcategory,
                   rt: response.rt,
-                //   stimulus: trial.stimulus,
-                //   slider_start: trial.slider_start,
-                  response: response.response,
-                //   subcategory: trial.subcategory,
+                  // stimulus: trial.stimulus,
+                  // slider_start: trial.slider_start,
+                  // response: response.response,
+                  subcategory: trial.subcategory,
+                  resultA: results.resultA,
+                  resultB: results.resultB,
               };
               display_element.innerHTML = "";
               // next trial
