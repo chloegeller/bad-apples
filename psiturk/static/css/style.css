@@ -77,6 +77,17 @@ h1 {
 }
 
 #slider-value-a {
+  color: darkgreen;
+  text-align: left;
+}
+
+#slider-value-b {
+  color: cornflowerblue;
+  text-align: right;
+}
+
+/* uncomment below to flip positions and colors of itemA and itemB */
+/* #slider-value-a {
   color: cornflowerblue;
   text-align: left;
 }
@@ -84,7 +95,7 @@ h1 {
 #slider-value-b {
   color: darkgreen;
   text-align: right;
-}
+} */
 
 #slider-response {
   position: relative;
