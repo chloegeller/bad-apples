@@ -1,7 +1,9 @@
 const psiTurk = PsiTurk(uniqueId, adServerLoc)
 
+const DEBUG = false;
+
 const buildExperimentTimeline = (data, jsPsych) => {
-	data = _.shuffle(data)
+	data = DEBUG ? [data[0]] : _.shuffle(data)
 	let timeline = _.map(data, (d) => Stimulus(d, jsPsych))
 	return _.flatten(timeline)
 }
@@ -11,7 +13,7 @@ const runExperiment = (data) => {
 		show_progress_bar: true,
 		message_progress_bar: "Progress Bar",
 		on_finish: () => psiTurk.saveData({
-			success: () => psiTurk.completeHIT(),
+			success: () => DEBUG ? jsPsych.data.displayData() : psiTurk.completeHIT(),
 			error: () => console.log("Error saving data..."),
 		}),
 		on_data_update: (data) => psiTurk.recordTrialData(data),
@@ -58,9 +60,14 @@ const runExperiment = (data) => {
 		  {prompt: '<div style="text-align: center;"><span style="color:#666666;">Comments(?)</span></div>', required: false, name: 'comments'},
 		],
 	};
-	post_timeline.push(attn_check, comments)
-	timeline.push(fullscreen_trial, prolific_id, instruct)
-	timeline = timeline.concat(experimentTimeline).concat(post_timeline)
+	post_timeline.push(attn_check, comments, exit_fullscreen)
+	if (!DEBUG)
+		timeline.push(fullscreen_trial, prolific_id, instruct)
+
+	timeline = timeline.concat(experimentTimeline)
+	
+	if (!DEBUG)
+		timeline = timeline.concat(post_timeline)
 	// console.log(timeline)
 
 	jsPsych.run(timeline)
