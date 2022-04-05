@@ -1,0 +1,154 @@
+groups:
+  activity: &activity 
+    category: "activity"
+  outdoor-activity: &outdoor
+    subcategory: "outdoor activity"
+    past_tense: "tried"
+    sub_cat: "out_act"
+  indoor-activity: &indoor 
+    subcategory: "indoor activity"
+    past_tense: "tried"
+    sub_cat: "in_act"
+  sport: &sport 
+    subcategory: "sport"
+    past_tense: "played"
+    sub_cat: "sport"
+
+  entertainment: &entertainment 
+    category: "entertainment"
+  book: &book
+    subcategory: "book"
+    past_tense: "read"
+    sub_cat: "book"
+  movie: &movie
+    subcategory: "movie"
+    past_tense: "seen"
+    sub_cat: "movie"
+  show: &show
+    subcategory: "show"
+    past_tense: "watched"
+    sub_cat: "show"
+
+  food: &food
+    category: "food"
+  dish: &dish 
+    subcategory: "dish"
+    past_tense: "tried"
+    sub_cat: "dish"
+  fruit: &fruit
+    subcategory: "fruit"
+    past_tense: "tried"
+    sub_cat: "fruit"
+  beverage: &beverage
+    subcategory: "beverage"
+    past_tense: "tried"
+    sub_cat: "beverage"
+
+  game: &game 
+    category: "game"
+  lawn-game: &lawn
+    subcategory: "lawn game"
+    past_tense: "played"
+    sub_cat: "lawn_game"
+  video-game: &video 
+    subcategory: "video game"
+    past_tense: "played"
+    sub_cat: "video_game"
+  board-game: &board
+    subcategory: "board game"
+    past_tense: "played"
+    sub_cat: "board_game"
+
+stimuli:
+- <<: [ *activity, *outdoor ]
+  probe: "Bliggintom"
+- <<: [ *activity, *indoor  ]
+  probe: "Swirling Skates"
+- <<: [ *activity, *sport, ]
+  probe: "Belving Ball"
+- <<: [ *entertainment, *book, ]
+  probe: "The Pontification"
+- <<: [ *entertainment, *movie, ]
+  probe: "The Wizard of Titan"
+- <<: [ *entertainment, *show, ]
+  probe: "Humpus Poipet"
+- <<: [ *food, *fruit, ]
+  probe: "Zibeo fruit"
+- <<: [ *food, *dish, ]
+  probe: "Pie of Delights"
+- <<: [ *food, *beverage, ]
+  probe: "Tropical Fizzy Footle"
+- <<: [ *game, *board, ]
+  probe: "Flags of Flembers"
+- <<: [ *game, *video, ]
+  probe: "The Return of the Galoo"
+- <<: [ *game, *lawn, ]
+  probe: "Hop of the Peach Tower"
+
+
+probes_subcat:
+- activities
+- activities
+- sports
+- books
+- movies
+- shows
+- fruits
+- dishes
+- beverages
+- board games
+- video games
+- lawn games
+probes:
+- Bliggintom
+- Swirling Skates
+- Belving Ball
+- The Pontifician
+- The Wizard of Titan
+- Humpus Poipet
+- Zibeo fruit
+- Pie of Delights
+- Tropical Fizzy Footle
+- Flags of Flembers
+- The Return of Galoo
+- Hop of the Peach Tower
+probe_subcat:
+- activity
+- activity
+- sport
+- book
+- movie
+- show
+- fruit
+- dish
+- beverage
+- board game
+- video game
+- lawn game
+subcat:
+- out_act
+- in_act
+- sport
+- book
+- movie
+- show
+- fruit
+- dish
+- beverage
+- board_game
+- video_game
+- lawn_game
+# PROBE_subcat:
+# - ACTIVITY
+# - ACTIVITY
+# - SPORT
+# - BOOK
+# - MOVIE
+# - SHOW
+# - FRUIT
+# - DISH
+# - BEVERAGE
+# - BOARD GAME
+# - VIDEO GAME
+# - LAWN GAME
+

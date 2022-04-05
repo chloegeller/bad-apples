@@ -1,0 +1,25 @@
+import { Button, Card } from "../../../components/bootstrap";
+
+<Card>
+
+<Card.Body>
+
+    Please think of a <span className="familiar">**FAMILIAR {props.subcategory}**</span> that you consider to be a
+    <span className="familiar">**9 out of 10**</span> (on a scale where 10 is the most preferable, and 1 is the least
+    preferable).
+
+    Please enter the name of the **{props.subcategory}** in the text box below, then press
+    <span className="btn-next btn-demo btn-sm">Continue</span> below.
+
+    <div className="input-group has-validation">
+        <input type="text" id="participant-choice" className="form-control form-control-lg" required placeholder={`A familiar ${props.subcategory}`}/>
+        <p className="invalid-feedback mb-0">Please provide a **FAMILIAR {props.subcategory}**.</p>
+    </div>
+
+</Card.Body>
+
+<Card.Footer>
+  <Button.Next />
+</Card.Footer>
+
+</Card>

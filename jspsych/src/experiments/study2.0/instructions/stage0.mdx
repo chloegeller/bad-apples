@@ -1,0 +1,36 @@
+import { Card, Button, Alert } from "../../../components/bootstrap";
+
+<Card>
+
+<Card.Header> Welcome to our study! </Card.Header>
+
+<Card.Body>
+
+    ## In this study, we are interested in how people choose to spend their time.
+
+    ### This study has 12 rounds.
+
+    <div className="py-2 w-100" />
+
+    For each round, you will be asked to give an example of a <span className="familiar">**FAMILIAR**</span> item or
+    experience that you find very enjoyable (<span className="familiar">**9 out of 10**</span>, where 10 is the most
+    preferable, and 1 is the least preferable).
+
+    You will then be told of a <span className="new">**NEW**</span> thing or experience in the same category, that is
+    rated lower (<span className="new">**3 out of 10**</span>, where 10 is the most preferable, and 1 is the least
+    preferable).
+
+    <div className="py-2 w-100" />
+
+    **YOUR TASK**: For each **<span className="familiar">FAMILIAR</span>/<span className="new">NEW</span>** pair of
+    items or experiences, please enter your best estimate of how you would like to split your time between them.
+
+    <Alert kind="info">_NOTE_: You **cannot** go back and edit your answers.</Alert>
+
+</Card.Body>
+
+<Card.Footer>
+  <Button.Next />
+</Card.Footer>
+
+</Card>

@@ -1,0 +1,43 @@
+import { Button, Card } from "../../../components/bootstrap";
+
+<Card>
+
+    <Card.Header>How would you like to split the next **{props.duration}** between the two **{props.pluralSubcategory}**?</Card.Header>
+
+    <Card.Body id={"jspsych-html-slider-response-wrapper"}>
+        <div className={"d-flex flex-row"}>
+            <div id="slider-value-a" className={"flex-fill"}>
+                <p id="slider-value-a-text" className="fw-bold">{props.item}</p>
+                <p id="slider-value-a-time"/>
+            </div>
+            <div id="slider-value-b" className={"flex-fill"}>
+                <p id="slider-value-b-text" className={"fw-bold"}>{props.selected_item}</p>
+                <p id="slider-value-b-time"/>
+            </div>
+        </div>
+
+        <div
+            className="jspsych-html-slider-response-container mx-auto mb-3">
+            <div className="slider-response-ratio">
+                <div id="slider-response-ratioA"/>
+                <div id="slider-response-ratioB"/>
+            </div>
+            <input type="range" className={"jspsych-slider"} id="jspsych-html-slider-response-response" {...props.slider} required/>
+            <div id="label-wrapper" className={"container"}>
+                <div id="label-container" className={"row"}>
+                    {props.labels.map((label) => {
+                        return <div className={"col fs-6"}>{label}</div>
+                    })}
+                </div>
+            </div>
+        </div>
+
+        <div className="slider-warning">**The slider must be moved to continue.** If you wish to evenly split your time, move the slider back to the middle.</div>
+
+    </Card.Body>
+
+    <Card.Footer>
+      <Button.Next disabled={true} />
+    </Card.Footer>
+
+</Card>

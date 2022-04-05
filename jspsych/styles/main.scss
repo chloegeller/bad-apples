@@ -1,0 +1,187 @@
+@import "bootstrap/scss/bootstrap";
+@import "~jspsych/css/jspsych.css";
+
+$familiar: $orange-400;
+$new: $blue-400;
+
+span.color-red {
+  color: $red-500;
+  text-transform: uppercase;
+}
+
+span.familiar {
+  color: $familiar;
+}
+
+span.new {
+  color: $new;
+}
+
+.jspsych-display-element {
+  //background-color: #ffffff;
+  background-color: $gray-300;
+}
+
+.jspsych-content-wrapper {
+  padding-top: $spacer * 3 !important;
+  padding-bottom: $spacer * 6 !important;
+}
+
+.jspsych-content {
+  //@extend .card;
+}
+
+#jspsych-survey-text-form {
+  //@extend .card-body;
+}
+
+#jspsych-progressbar-container {
+  @extend .d-print-none, .d-flex, .justify-content-center, .py-3;
+  background-color: $gray-500;
+  color: $gray-900;
+
+  #jspsych-progressbar-outer {
+    @extend .progress, .mx-0;
+    background-color: $gray-400;
+    height: 1rem !important;
+
+    #jspsych-progressbar-inner {
+      @extend .progress-bar, .mx-0;
+      @extend .progress-bar-striped;
+      //@extend .progress-bar-animated;
+      background-color: $indigo-500;
+    }
+  }
+}
+
+.jspsych-btn, .btn-next {
+  @extend .btn, .btn-primary, .align-self-center, .px-5;
+}
+
+.btn-demo, .btn-next.btn-demo {
+  @extend .px-2;
+}
+
+.jspsych-survey-text-question {
+  p.jspsych-survey-text {
+    @extend .form-label;
+  }
+
+  input {
+    @extend .form-control, .mx-auto;
+    width: unset !important;
+  }
+}
+
+#slider-value-a {
+  @extend .text-start;
+  color: $new;
+}
+
+#slider-value-b {
+  @extend .text-end;
+  color: $familiar;
+}
+
+
+#slider-value-a,
+#slider-value-b {
+  @extend .flex-fill;
+
+  #slider-value-a-text,
+  #slider-value-b-text {
+    @extend .fw-bold;
+  }
+}
+
+.slider-response-ratio {
+  @extend .d-flex, .rounded-1;
+  height: $spacer * 2;
+  overflow: hidden;
+
+  #slider-response-ratioA {
+    background: $new;
+  }
+
+  #slider-response-ratioB {
+    background: $familiar;
+    @extend .flex-grow-1;
+  }
+}
+
+.card-header {
+  .card-title {
+    @extend .my-3;
+  }
+
+  p:last-child {
+    @extend .mb-0;
+  }
+}
+
+.consent-statement {
+  @extend .mx-auto;
+
+  @include media-breakpoint-up(lg) {
+    //max-width: 50%;
+  }
+  @include media-breakpoint-up(md) {
+    //max-width: 75%;
+  }
+
+  .card-body {
+    @extend .text-start;
+    font-size: $font-size-base * 0.85;
+  }
+
+  .alert {
+    @extend .fs-6;
+  }
+
+  .card-footer-body {
+    @extend .flex-row, .justify-content-around;
+  }
+}
+
+.btn-consent-agree {
+  @extend .btn, .btn-success, .px-4, .py-2;
+}
+
+.btn-consent-disagree {
+  @extend .btn, .btn-danger, .px-4, .py-2;
+}
+
+#quit-study {
+  @extend .btn, .px-3;
+  background: #cc0000;
+  color: #eff4fd;
+  border-radius: 0.25em;
+  position: fixed;
+  bottom: 1em;
+  right: 1em;
+}
+
+.card {
+  @extend .shadow-sm;
+}
+
+.card-header, .card-footer {
+  @extend .py-3, .w-100;
+}
+
+.card-title {
+  @extend .mb-0;
+}
+
+.card-body.instructions {
+  @extend .text-center;
+}
+
+.card-footer-body {
+  @extend .d-flex, .flex-column, .justify-content-between;
+}
+
+.slider-warning {
+  @extend .small;
+  color: $gray-600;
+}
