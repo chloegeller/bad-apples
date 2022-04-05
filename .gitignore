@@ -1,5 +1,10 @@
+.idea/
+
+jspsych/.jspsych-builder/
+jspsych/node_modules/
+jspsych/packaged/
+
 data/
-**/node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
