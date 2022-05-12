@@ -1,41 +1,38 @@
 import React from "react";
 import FullscreenPlugin from "@jspsych/plugin-fullscreen";
 import SurveyTextPlugin from "@jspsych/plugin-survey-text";
-import ConsentPlugin from "../plugins/consent";
-import Consent from "./consent.mdx";
-
-const Timeline = [];
+import ReactPlugin from "../plugins/react";
+import Consent from "./consent";
+import ReactDOMExtension from "../extensions/react";
+import JATOSExtension from "../extensions/jatos";
 
 const startFullscreen = {
   type: FullscreenPlugin,
   fullscreen_mode: true,
 };
 
-let prolificID;
-export const prolificNodeID = () => prolificID;
-
-const prolificIDPrompt = `<div style="text-align: center";>Before we begin, please enter your <strong>Prolific ID</strong>. Thank you!</div>`;
+const prolificIDPrompt = `<div style="text-align: center">Before we begin, please enter your <strong>Prolific ID</strong>. Thank you!</div>`;
 const queryProlificID = {
   type: SurveyTextPlugin,
   questions: [
-    { required: true, name: "prolific_id", prompt: prolificIDPrompt },
+    {required: true, name: "prolificID", prompt: prolificIDPrompt},
   ],
+  extensions: [
+    {type: JATOSExtension, params: {retrieve: ["response.prolificID",]}}
+  ]
 };
 
+const redirectURL = "https://memegenerator.net/img/instances/72809998/have-a-nice-day.jpg"
 const consentForm = {
-  type: ConsentPlugin,
-  component: () => <Consent />,
-  redirect_url: "https://google.com",
+  type: ReactPlugin,
+  component: (props) => <Consent redirectURL={redirectURL} {...props} />,
+  extensions: [
+    {type: ReactDOMExtension, params: {}}
+  ]
 };
 
-export function timeline(jsPsych) {
-  Timeline.push(consentForm);
-  Timeline.push(startFullscreen);
-
-  queryProlificID.on_load = () => {
-    prolificID = jsPsych.getCurrentTimelineNodeID();
-  };
-  Timeline.push(queryProlificID);
-
-  return Timeline;
-}
+export const Timeline = [
+  consentForm,
+  startFullscreen,
+  queryProlificID,
+]

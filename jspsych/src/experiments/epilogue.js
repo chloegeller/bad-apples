@@ -1,10 +1,6 @@
 import FullscreenPlugin from "@jspsych/plugin-fullscreen";
 import SurveyTextPlugin from "@jspsych/plugin-survey-text";
-
-const Timeline = [];
-
-let attentionCheckID;
-export const attentionCheckNodeID = () => attentionCheckID;
+import JATOSExtension from "../extensions/jatos";
 
 const attentionCheck = {
   type: SurveyTextPlugin,
@@ -13,13 +9,13 @@ const attentionCheck = {
       prompt:
         '<div style="text-align: center;">What was <strong>your task</strong> in this study?</div>',
       required: true,
-      name: "attn_check",
+      name: "attnCheck",
     },
   ],
+  extensions: [
+    {type: JATOSExtension, params: {retrieve: ["response.attnCheck"]}},
+  ]
 };
-
-let commentsID;
-export const commentsNodeID = () => commentsID;
 
 const comments = {
   type: SurveyTextPlugin,
@@ -31,6 +27,9 @@ const comments = {
       name: "comments",
     },
   ],
+  extensions: [
+    {type: JATOSExtension, params: {retrieve: ["response.comments"]}}
+  ]
 };
 
 const endFullscreen = {
@@ -38,18 +37,8 @@ const endFullscreen = {
   fullscreen_mode: false,
 };
 
-export function timeline(jsPsych) {
-  attentionCheck.on_load = () => {
-    attentionCheckID = jsPsych.getCurrentTimelineNodeID();
-  };
-  Timeline.push(attentionCheck);
-
-  comments.on_load = () => {
-    commentsID = jsPsych.getCurrentTimelineNodeID();
-  };
-  Timeline.push(comments);
-
-  Timeline.push(endFullscreen);
-
-  return Timeline;
-}
+export const Timeline = [
+  attentionCheck,
+  comments,
+  endFullscreen,
+]
