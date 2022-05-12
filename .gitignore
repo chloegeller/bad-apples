@@ -1,4 +1,5 @@
 .idea/
+.eslintrc
 
 jspsych/.jspsych-builder/
 jspsych/node_modules/

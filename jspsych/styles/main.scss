@@ -3,10 +3,35 @@
 
 $familiar: $orange-400;
 $new: $blue-400;
+$probable: $green-500;
+$improbable: $blue-500;
+$impossible: $red-500;
+$typeError: $orange-500;
 
 span.color-red {
   color: $red-500;
   text-transform: uppercase;
+}
+
+.is-invalid.is-empty ~ .invalid-feedback.is-empty,
+.is-invalid.has-punct ~ .invalid-feedback.has-punct,
+.is-invalid.has-space ~ .invalid-feedback.has-space, {
+  display: block !important;
+}
+
+.is-invalid.is-empty ~ .invalid-feedback,
+.is-invalid.has-punct ~ .invalid-feedback,
+.is-invalid.has-space ~ .invalid-feedback {
+  display: none !important;
+  margin-bottom: 0 !important;
+}
+
+.input-group {
+  @extend .mb-3;
+
+  span.input-group-text {
+    @extend .px-2;
+  }
 }
 
 span.familiar {
@@ -16,6 +41,23 @@ span.familiar {
 span.new {
   color: $new;
 }
+
+span.probable {
+  color: $probable;
+}
+
+span.improbable {
+  color: $improbable;
+}
+
+span.impossible {
+  color: $impossible;
+}
+
+span.typeError {
+  color: $typeError;
+}
+
 
 .jspsych-display-element {
   //background-color: #ffffff;
@@ -28,7 +70,7 @@ span.new {
 }
 
 .jspsych-content {
-  //@extend .card;
+  @extend .w-100;
 }
 
 #jspsych-survey-text-form {
@@ -91,6 +133,12 @@ span.new {
   #slider-value-a-text,
   #slider-value-b-text {
     @extend .fw-bold;
+  }
+
+  #slider-value-a-rate,
+  #slider-value-b-rate {
+    @extend .flex-fill;
+    color: $gray-600;
   }
 }
 
@@ -184,4 +232,18 @@ span.new {
 .slider-warning {
   @extend .small;
   color: $gray-600;
+}
+
+.alert {
+  p:last-child {
+    @extend .mb-0;
+  }
+
+  &#form-global-error {
+    @extend .d-none;
+  }
+
+  &.is-invalid {
+    @extend .d-block;
+  }
 }

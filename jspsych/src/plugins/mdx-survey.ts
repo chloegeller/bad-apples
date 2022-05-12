@@ -1,8 +1,9 @@
-import { JsPsych, JsPsychPlugin, ParameterType, TrialType } from "jspsych";
+import {JsPsych, JsPsychPlugin, ParameterType, TrialType} from "jspsych";
 // @ts-ignore
 import React from "react";
 // @ts-ignore
 import ReactDOM from "react-dom";
+import ReactDOMClient from "react-dom/client"
 import _ from "lodash";
 
 const info = <const>{
@@ -20,24 +21,23 @@ type Info = typeof info;
 class MDXSurveyPlugin implements JsPsychPlugin<Info> {
   static info = info;
   private startTime: number;
-
+  
   constructor(private jsPsych: JsPsych) {
     this.jsPsych = jsPsych;
   }
-
+  
   trial(container: HTMLElement, trial: TrialType<Info>) {
-    try {
-      ReactDOM.unmountComponentAtNode(container);
-    } catch (e) {}
-    ReactDOM.render(trial.component(trial), container);
+    const root: ReactDOMClient = this.jsPsych.extensions.react.getRoot()
+    root.render(trial.component(trial), container);
+    
     this.startTime = performance.now();
-
+    
     let nextBtn = document.getElementById("next");
     nextBtn.addEventListener("click", () => {
       this.endTrial(container, trial);
     });
   }
-
+  
   gatherResponses(container: HTMLElement) {
     const results = {
       rt: performance.now() - this.startTime,
@@ -51,7 +51,7 @@ class MDXSurveyPlugin implements JsPsychPlugin<Info> {
     });
     return results;
   }
-
+  
   endTrial(container: HTMLElement, trial: TrialType<Info>) {
     const results = this.gatherResponses(container);
     if (!_.isEmpty(_.omit(results, "rt"))) {

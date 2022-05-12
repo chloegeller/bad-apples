@@ -1,7 +1,9 @@
-import { JsPsych, JsPsychPlugin, ParameterType, TrialType } from "jspsych";
+import {JsPsych, JsPsychPlugin, ParameterType, TrialType} from "jspsych";
 // @ts-ignore
 import React from "react";
 import ReactDOM from "react-dom";
+import ReactDOMClient from "react-dom/client"
+import ReactDOMExtension from "../extensions/react";
 
 const info = <const>{
   name: "consent",
@@ -21,17 +23,16 @@ type Info = typeof info;
 
 class ConsentPlugin implements JsPsychPlugin<Info> {
   static info = info;
-
+  
   constructor(private jsPsych: JsPsych) {
     this.jsPsych = jsPsych;
   }
-
+  
   trial(container: HTMLElement, trial: TrialType<Info>) {
-    try {
-      ReactDOM.unmountComponentAtNode(container);
-    } catch (e) {}
-    ReactDOM.render(trial.component(), container);
-
+    this.jsPsych.extensions.react.render(
+      trial.component, {trial}
+    )
+    
     let nextBtn = document.getElementById("consent-agree");
     nextBtn.addEventListener("click", () => {
       this.jsPsych.pluginAPI.clearAllTimeouts();
@@ -39,13 +40,13 @@ class ConsentPlugin implements JsPsychPlugin<Info> {
         consent: true,
       });
     });
-
+    
     let failBtn = document.getElementById("consent-disagree");
     failBtn.addEventListener("click", () => {
       alert("You must consent to complete this study.");
     });
   }
-
+  
   accept() {
     const data = {
       consent: true,

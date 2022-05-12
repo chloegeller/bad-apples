@@ -1,4 +1,4 @@
-import { JsPsych, JsPsychPlugin, ParameterType, TrialType } from "jspsych";
+import {JsPsych, JsPsychPlugin, ParameterType, TrialType} from "jspsych";
 // @ts-ignore
 import React from "react";
 // @ts-ignore
@@ -12,30 +12,37 @@ const info = <const>{
       type: ParameterType.FUNCTION,
       required: true,
     },
+    providesSubmit: {
+      type: ParameterType.BOOL,
+      required: false,
+      default: false,
+    },
   },
 };
 
-type Info = typeof info;
+type ReactInfo = typeof info;
 
-class ReactPlugin implements JsPsychPlugin<Info> {
+
+class ReactPlugin<T extends ReactInfo> implements JsPsychPlugin<T> {
   static info = info;
-
-  constructor(private jsPsych: JsPsych) {
+  
+  constructor(private readonly jsPsych: JsPsych) {
     this.jsPsych = jsPsych;
   }
-
-  trial(container: HTMLElement, trial: TrialType<Info>) {
-    try {
-      ReactDOM.unmountComponentAtNode(container);
-    } catch (e) {}
-    ReactDOM.render(trial.component(trial), container);
-
-    let nextBtn = document.getElementById("next");
-
-    nextBtn.addEventListener("click", () => {
-      this.jsPsych.pluginAPI.clearAllTimeouts();
-      this.jsPsych.finishTrial();
-    });
+  
+  trial(container: HTMLElement, trial: TrialType<ReactInfo>) {
+    this.jsPsych.extensions.react.render(
+      trial.component, {trial}
+    )
+    
+    if (!trial.providesSubmit) {
+      let nextBtn = document.getElementById("next");
+      
+      nextBtn.addEventListener("click", () => {
+        this.jsPsych.pluginAPI.clearAllTimeouts();
+        this.jsPsych.finishTrial();
+      });
+    }
   }
 }
 
